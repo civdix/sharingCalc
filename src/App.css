@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Pirata+One&display=swap');
+
 .App {
   text-align: center;
 }
@@ -34,5 +37,109 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+body{
+  background-image: url(https://imageio.forbes.com/specials-images/imageserve/5f6efda89050d6df1fcde87d/0x0.jpg?format=jpg&crop=4152,2375,x487,y226,safe&width=1200,https://img.freepik.com/free-vector/watercolor-stains-abstract-background_23-2149107179.jpg);
+  background-size:cover;
+  background-repeat: no-repeat;
+  caret-color: black;
+  
+
+}
+.blur{
+  height: 100%;
+  width: 80%;
+  min-height: 600px;
+overflow: hidden;
+  background-color: rgb(177, 177, 177,0.4);
+  margin: auto;
+}
+.pa{
+  top: 41.5%;
+  left:22.6%;
+
+}
+
+.clip{
+  top:8%;
+  color: #4db1bc;
+  left: 51.5%;
+}
+.lfty{
+  top:8%;
+  left: 61.5%;
+  rotate: 315deg;
+}
+.righty{
+  top:8%;
+  left: 61.5%;
+  rotate: 90deg;
+}
+.fun2{
+  top:11.5%;
+  left: 62.7%;
+  rotate: 0deg;
+  color: #bad61c;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+.fun2 h1{
+  font-size: 5rem;
+}
+.fun{
+  top:10%;
+  left: 48.8%;
+  color: #0da5b6;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+
+
+}
+.fun2, .fun img{
+  margin: 0;
+  padding-bottom: 6rem;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  font-family: 'Teko', sans-serif;
+ 
+  text-transform: uppercase;
+  animation: glow 2s ease-in-out infinite alternate;
+  text-align: center;
+}
+.fun2, .fun h1 {
+  
+  margin: 0;
+  padding-bottom: 6rem;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  
+  font-family: 'Pirata One';
+  font-size: 5rem;
+  text-transform: uppercase;
+  animation: glow 2s ease-in-out infinite alternate;
+  text-align: center;
+}
+.fun2, .fun a {
+  font-family: 'Teko', sans-serif;
+  color: #c506eb;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  justify-self: center;
+  padding-bottom: 1rem;
+}
+@keyframes glow {
+  from {
+    text-shadow: 0 0 20px #2d9da9;
+  }
+  to {
+    text-shadow: 0 0 30px #34b3c1, 0 0 10px #4dbbc7;
   }
 }
