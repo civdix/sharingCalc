@@ -1,0 +1,22 @@
+{
+  "name": "sharingcalc",
+  "version": "1.0.0",
+  "description": "sharing and caring calculator is an web app who tracks all the spending and make a analytical report on it with ebautiful visualization skills",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/civdix/sharingCalc.git"
+  },
+  "author": "Shivam Dixit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/civdix/sharingCalc/issues"
+  },
+  "homepage": "https://github.com/civdix/sharingCalc#readme",
+  "dependencies": {
+    "sharingcalc": "file:"
+  }
+}
