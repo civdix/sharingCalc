@@ -2,10 +2,11 @@ import React from "react";
 import { FaGripLinesVertical } from "react-icons/fa";
 import { AiOutlineQuestion,AiOutlineMinus } from "react-icons/ai";
 import { GiStraightPipe } from "react-icons/gi";
-
+import HomeWithLogin from "./HomeWithLogin";
+import { useNavigate } from 'react-router-dom';
 function Home() {
-  const login = true;
-  if (login) {
+  const login = false;
+  const navigate = useNavigate();
     return (
       <div className="bg-dark text-light blur my-2 rounded p-2 d-flex">
         <div className="float-start my-auto">
@@ -47,20 +48,23 @@ function Home() {
             src={require("../resources/Image/da.png")}
             alt="dataAnalysis"
             width="25%"
-            className="mx-2 "
+            
+            style={{marginLeft:"37.5%"}}
           />
           <h2 className="text-start " style={{fontFamily:"Bungee Tint"}}>Sharing & Caring Calculator</h2>
-          <p className="text-start w-75 mx-2" >
+          <p className="text-start w-75 mx-3" >
             We provide multi problem solution with this app where you can easily
             track your expenses and other financials activities along with the
             high visulalize Data analysis that will help you to make your
             decision on your health and Money
           </p>
-          <div className="loginSignup position-absolute my-5" style={{left:'42.9%',zIndex:2
+
+         <div className="loginSignup position-absolute my-5" style={{left:'42.9%',zIndex:2
        }}>
-            <button className="btn btn-outline-primary">Login</button>
-            <button className="btn btn-outline-primary mx-5">Sign-Up</button>
-          </div>
+        
+           {!login && <><button className="btn btn-outline-primary" onClick={()=>navigate("/login")}>Login</button>
+             <button className="btn btn-outline-primary mx-5">Sign-Up</button></> || <HomeWithLogin/>} 
+          </div> 
         </div>
           <AiOutlineQuestion size={55} />
         <div className="float-end my-auto">
@@ -77,8 +81,5 @@ function Home() {
     );
   }
 
-  // Other wise
-  return <div>When user is logged in</div>;
-}
 
 export default Home;

@@ -56,7 +56,7 @@ overflow: hidden;
   margin: auto;
 }
 .pa{
-  top: 41.5%;
+  top: 38.5%;
   left:22.6%;
 
 }
@@ -143,3 +143,22 @@ overflow: hidden;
     text-shadow: 0 0 30px #34b3c1, 0 0 10px #4dbbc7;
   }
 }
+/* .blur label{
+ display: block;
+} */
+ .label1{
+  
+ 
+  top:11%;
+  left:43.3%;
+  background-color: rgb(220, 240, 255);
+
+ transition: top 800ms, left 800ms;
+ }
+ .label2{
+  background-color: #ddf0ff;
+  top:19%;
+  left:43.3%;
+  transition: top 1s, left 1s;
+  
+ }
