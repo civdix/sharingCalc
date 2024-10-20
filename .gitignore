@@ -7,6 +7,7 @@
 ../Reduxapp/
 ../inotebook/
 ../localRepo/
+/Backend/node_modules
 
 # testing
 /coverage

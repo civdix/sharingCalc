@@ -3,7 +3,8 @@ import { FaGripLinesVertical } from "react-icons/fa";
 import { AiOutlineQuestion,AiOutlineMinus } from "react-icons/ai";
 import { GiStraightPipe } from "react-icons/gi";
 import HomeWithLogin from "./HomeWithLogin";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 function Home() {
   const login = false;
   const navigate = useNavigate();
@@ -62,8 +63,8 @@ function Home() {
          <div className="loginSignup position-absolute my-5" style={{left:'42.9%',zIndex:2
        }}>
         
-           {!login && <><button className="btn btn-outline-primary" onClick={()=>navigate("/login")}>Login</button>
-             <button className="btn btn-outline-primary mx-5">Sign-Up</button></> || <HomeWithLogin/>} 
+           {!login && <><Link to="/login" className="btn btn-outline-primary">Login</Link>
+           <Link to='/signUp' className="btn btn-outline-primary mx-5">Sign-Up</Link></> || <HomeWithLogin/>} 
           </div> 
         </div>
           <AiOutlineQuestion size={55} />

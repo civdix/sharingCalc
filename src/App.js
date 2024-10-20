@@ -10,6 +10,7 @@ import Login from './components/login.jsx';
   Route,
   Link,
 } from "react-router-dom";
+import SignUp from './components/signUp.jsx';
 
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
         element: (
           <>
             {" "}
-            <Navbar /> <div>This is SignUp</div>{" "}
+            <Navbar /><SignUp/>{" "}
           </>
         ),
       },

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 function Navbar() {
@@ -6,7 +7,7 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
-  <a className="navbar-brand" href="/">Sharing & Caring Calculator</a>
+  <Link className="navbar-brand" to="/">Sharing & Caring Calculator</Link>
   <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"> TOggle me </span>
   </button>
@@ -14,24 +15,24 @@ function Navbar() {
   <div className="collapse navbar-collapse ms-auto" id="navbarSupportedContent">
     <ul className="navbar-nav ms-auto ">
       <li className="nav-item active">
-        <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+        <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="/Pending">Pending</a>
+        <Link className="nav-link" to="/Pending">Pending</Link>
       </li>
       <li className="nav-item dropdown">
-        <a className="nav-link dropdown-toggle" href="/Notification" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <Link className="nav-link dropdown-toggle" to="/Notification" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Notification
-        </a>
+        </Link>
         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a className="dropdown-item" href="https//www.google.com">Action</a>
-          <a className="dropdown-item" href="https//www.google.com">Another action</a>
+          <Link className="dropdown-item" to="https//www.google.com">Action</Link>
+          <Link className="dropdown-item" to="https//www.google.com">Another action</Link>
           <div className="dropdown-divider"></div>
-          <a className="dropdown-item" href="https//www.google.com">Something else here</a>
+          <Link className="dropdown-item" to="https//www.google.com">Something else here</Link>
         </div>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="/Analytics">Analysis</a>
+        <Link className="nav-link" to="/Analytics">Analysis</Link>
       </li>
     </ul>
     <form className="form-inline my-2 my-lg-0 float-end ms-auto">
