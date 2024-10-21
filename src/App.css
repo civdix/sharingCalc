@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Pirata+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Pirata+One&display=swap");
 
 .App {
   text-align: center;
@@ -39,45 +38,42 @@
     transform: rotate(360deg);
   }
 }
-body{
+body {
   background-image: url(https://imageio.forbes.com/specials-images/imageserve/5f6efda89050d6df1fcde87d/0x0.jpg?format=jpg&crop=4152,2375,x487,y226,safe&width=1200,https://img.freepik.com/free-vector/watercolor-stains-abstract-background_23-2149107179.jpg);
-  background-size:cover;
+  background-size: cover;
   background-repeat: no-repeat;
   caret-color: black;
-  
-
 }
-.blur{
+.blur {
   height: 100%;
   width: 80%;
   min-height: 600px;
-overflow: hidden;
-  background-color: rgb(177, 177, 177,0.4);
+  overflow: hidden;
+  background-color: rgb(177, 177, 177, 0.4);
   margin: auto;
 }
-.pa{
+.pa {
   top: 38.5%;
-  left:22.6%;
-
+  left: 22.6%;
 }
 
-.clip{
-  top:8%;
+.clip {
+  top: 8%;
   color: #4db1bc;
   left: 51.5%;
 }
-.lfty{
-  top:8%;
+.lfty {
+  top: 8%;
   left: 61.5%;
   rotate: 315deg;
 }
-.righty{
-  top:8%;
+.righty {
+  top: 8%;
   left: 61.5%;
   rotate: 90deg;
 }
-.fun2{
-  top:11.5%;
+.fun2 {
+  top: 11.5%;
   left: 62.7%;
   rotate: 0deg;
   color: #bad61c;
@@ -85,11 +81,11 @@ overflow: hidden;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
 }
-.fun2 h1{
+.fun2 h1 {
   font-size: 5rem;
 }
-.fun{
-  top:10%;
+.fun {
+  top: 10%;
   left: 48.8%;
   color: #0da5b6;
   display: grid;
@@ -97,37 +93,37 @@ overflow: hidden;
   grid-template-rows: 1fr;
   align-items: center;
   justify-items: center;
-
-
 }
-.fun2, .fun img{
+.fun2,
+.fun img {
   margin: 0;
   padding-bottom: 6rem;
   grid-column: 1;
   grid-row: 1;
   z-index: 1;
-  font-family: 'Teko', sans-serif;
- 
+  font-family: "Teko", sans-serif;
+
   text-transform: uppercase;
   animation: glow 2s ease-in-out infinite alternate;
   text-align: center;
 }
-.fun2, .fun h1 {
-  
+.fun2,
+.fun h1 {
   margin: 0;
   padding-bottom: 6rem;
   grid-column: 1;
   grid-row: 1;
   z-index: 1;
-  
-  font-family: 'Pirata One';
+
+  font-family: "Pirata One";
   font-size: 5rem;
   text-transform: uppercase;
   animation: glow 2s ease-in-out infinite alternate;
   text-align: center;
 }
-.fun2, .fun a {
-  font-family: 'Teko', sans-serif;
+.fun2,
+.fun a {
+  font-family: "Teko", sans-serif;
   color: #c506eb;
   grid-column: 1;
   grid-row: 1;
@@ -146,19 +142,16 @@ overflow: hidden;
 /* .blur label{
  display: block;
 } */
- .label1{
-  
- 
-  top:11%;
-  left:43.3%;
-  background-color: rgb(220, 240, 255);
+.label1 {
+  top: 11%;
+  left: 43.3%;
+  background-color: white;
 
- transition: top 800ms, left 800ms;
- }
- .label2{
-  background-color: #ddf0ff;
-  top:19%;
-  left:43.3%;
+  transition: top 800ms, left 800ms;
+}
+.label2 {
+  background-color: white;
+  top: 19%;
+  left: 43.3%;
   transition: top 1s, left 1s;
-  
- }
+}
