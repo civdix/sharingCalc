@@ -17,6 +17,7 @@ function Calc() {
           ...data,
           tag: data.tag.split(","),
           person: person,
+          author: localStorage.getItem("Username"),
         }),
       }
     );

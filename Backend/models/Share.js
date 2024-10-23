@@ -22,6 +22,9 @@ const { Schema } = mongoose;
 //     ]
 // };
 const ShareSchema = Schema({
+  author: {
+    Username: String,
+  },
   title: {
     type: String,
     require: true,
@@ -37,10 +40,11 @@ const ShareSchema = Schema({
       Username: String,
       Rs: Number,
       Desc: String,
-      // Allow any other properties
+      // Allow any otefher properties
     },
   ],
 });
+ShareSchema.add({ author: String });
 const Share = mongoose.model("share", ShareSchema);
 Share.createIndexes();
 module.exports = Share;

@@ -45,9 +45,8 @@ body {
   caret-color: black;
 }
 .blur {
-  height: 100%;
   width: 80%;
-  min-height: 600px;
+  height: 600px;
   overflow: hidden;
   background-color: rgb(177, 177, 177, 0.4);
   margin: auto;
@@ -154,4 +153,46 @@ body {
   top: 19%;
   left: 43.3%;
   transition: top 1s, left 1s;
+}
+
+.tools {
+  min-height: 17%;
+  border-radius: 5px;
+  margin-top: 5px;
+  background-color: #c506eb;
+}
+.select {
+  cursor: pointer;
+  min-height: 7%;
+  margin-top: 5px;
+  border-radius: 15px;
+  background-color: #d5b6f8;
+}
+.myshare,
+.shareOnMe {
+  padding-left: 2%;
+  border-radius: 15px;
+}
+.mainView {
+  border-radius: 5px;
+  background-color: #0da5b6;
+  min-height: 73%;
+  margin-top: 5px;
+  overflow-y: scroll;
+  height: 74%;
+}
+.card-footer {
+  max-height: 5%;
+}
+.photoFooter {
+  width: 30px;
+}
+.card {
+  height: fit-content;
+  width: 24%;
+}
+.labelForUsername {
+  display: none;
+  top: -50%;
+  left: 50%;
 }

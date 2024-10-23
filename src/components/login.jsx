@@ -30,6 +30,7 @@ function Login() {
     if (response.ok) {
       const json = await response.json();
       localStorage.setItem("token", json.token);
+      localStorage.setItem("Username", credentials.Username);
       navigate("/Calc");
     } else {
       console.log(await response.json());

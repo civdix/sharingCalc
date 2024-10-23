@@ -1,17 +1,16 @@
-
-import './App.css';
-import Calc from './components/Calc.jsx';
-import Navbar from './components/Navbar.jsx';
-import Home from './components/home.jsx';
-import Login from './components/login.jsx';
- import {
+import "./App.css";
+import Calc from "./components/Calc.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Home from "./components/home.jsx";
+import Login from "./components/login.jsx";
+import {
   createBrowserRouter,
   RouterProvider,
   Route,
   Link,
 } from "react-router-dom";
-import SignUp from './components/signUp.jsx';
-
+import SignUp from "./components/signUp.jsx";
+import ShareHistory from "./components/ShareHistory.jsx";
 
 function App() {
   try {
@@ -39,7 +38,7 @@ function App() {
         element: (
           <>
             {" "}
-            <Navbar /> <Login/>{" "}
+            <Navbar /> <Login />{" "}
           </>
         ),
       },
@@ -49,7 +48,18 @@ function App() {
         element: (
           <>
             {" "}
-            <Navbar /><SignUp/>{" "}
+            <Navbar />
+            <SignUp />{" "}
+          </>
+        ),
+      },
+      {
+        path: "/ShareHistory",
+        element: (
+          <>
+            {" "}
+            <Navbar />
+            <ShareHistory />{" "}
           </>
         ),
       },
@@ -58,7 +68,8 @@ function App() {
         element: (
           <>
             {" "}
-            <Navbar /><div>This is DashBoard or analytics</div>{" "}
+            <Navbar />
+            <div>This is DashBoard or analytics</div>{" "}
           </>
         ),
       },
@@ -67,19 +78,17 @@ function App() {
         element: (
           <>
             {" "}
-            <Navbar /><Calc/>{" "}
+            <Navbar />
+            <Calc />{" "}
           </>
         ),
       },
     ]);
 
-    return (
-        <RouterProvider router={router} />
-    );
+    return <RouterProvider router={router} />;
   } catch (e) {
     console.error("Error:", e);
   }
- 
 }
 
 export default App;

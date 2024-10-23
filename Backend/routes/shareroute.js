@@ -7,15 +7,18 @@ const { body, validationResult } = require("express-validator");
 router.post("/createShare", async (req, res) => {
   try {
     Share.create({
+      author: req.body.author || "No title",
       title: req.body.title || "No title",
       tag: req.body.tag || "No Tags",
       photo: req.body.photo || "Photo link or Base64 code not exist",
       person: req.body.person || { Desc: "There is no user" },
     })
-      .then(() => {
+      .then((share) => {
         res.status(200).json({
           success: true,
           message: "Schema Created Successfully",
+          requestBody: req.body,
+          share: share,
         });
       })
       .catch((e) => {
@@ -27,6 +30,26 @@ router.post("/createShare", async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({ message: "Internal server me kuch dikkat hai" });
+  }
+});
+
+// Route to get all the notesapi /shorten/:longUrl
+
+router.get("/getShares/:Username", async (req, res) => {
+  try {
+    Share.find({
+      author: req.params.Username,
+    })
+      .then((share) => {
+        res.status(200).json({ share: [...share] });
+      })
+      .catch((err) => {
+        res.status(400).json({ message: "Wrong attempt" });
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server me kuch dikkat hai" + error });
   }
 });
 

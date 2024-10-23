@@ -31,6 +31,7 @@ function SignUp() {
       if (json.success) {
         console.log(json.msg);
         localStorage.setItem("token", json.token);
+        localStorage.setItem("Username", data.Username);
       } else {
         console.log("!!!!Error found ", json.msg);
       }
