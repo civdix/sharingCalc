@@ -53,4 +53,26 @@ router.get("/getShares/:Username", async (req, res) => {
   }
 });
 
+router.delete("/deleteShare/:Username/:id", async (req, res) => {
+  try {
+    Share.deleteOne({
+      _id: req.params.id,
+    })
+      .then((share) => {
+        res
+          .status(200)
+          .json({
+            message: `Successfully deleted with id = ${req.params.id} for User = ${req.params.Username}`,
+          });
+      })
+      .catch(() => {
+        res.status(500).json({ message: "Unauthorised" });
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server me kuch dikkat hai" + error });
+  }
+});
+
 module.exports = router;

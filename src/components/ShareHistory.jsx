@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { MdDeleteForever } from "react-icons/md";
 
 function ShareHistory() {
   const [section, setSection] = useState(true);
   const [share, setShare] = useState([]);
+  async function deleteHistory(id, Username) {
+    const response = await fetch(
+      `http://localhost:5000/api/share/deleteShare/${Username}/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+    if (!response.ok) {
+      alert(json.message);
+    } else console.log("Successfully deleted\n", json.message);
+    // That popdown or Line thing below navbar
+  }
   async function getShares() {
     const response = await fetch(
       "http://localhost:5000/api/share/getShares/shivdix.cpp",
@@ -15,10 +32,11 @@ function ShareHistory() {
     );
     const share = await response.json();
     setShare(share.share);
+    // setShare([]);
   }
   useEffect(() => {
     getShares();
-  }, []);
+  }, [share]);
   return (
     <div className="blur my-2 rounded p-2 ">
       <div className="tools"></div>
@@ -50,9 +68,13 @@ function ShareHistory() {
           return (
             <div
               key={index}
-              className="card p-1 my-1 mx-1"
+              className="card p-1 my-1 mx-1 position-relative"
               //   style={{ width: "16rem" }}
             >
+              <MdDeleteForever
+                className="deleteButton position-absolute left-0 z-index-2"
+                onClick={() => deleteHistory(e._id, e.Username)}
+              />
               <img
                 className="card-img-top "
                 src="https://th.bing.com/th/id/OIP.K7NwKlbwQo9WvIedWa-fYgHaE8?rs=1&pid=ImgDetMain"

@@ -196,3 +196,11 @@ body {
   top: -50%;
   left: 50%;
 }
+.deleteButton {
+  font-size: 150%;
+  color: chartreuse;
+}
+.deleteButton:hover {
+  font-size: 200%;
+  color: red;
+}
