@@ -3,6 +3,7 @@ import Calc from "./components/Calc.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Home from "./components/home.jsx";
 import Login from "./components/login.jsx";
+// import TelegramAPi from "./components/telegramAPi.jsx";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -11,6 +12,7 @@ import {
 } from "react-router-dom";
 import SignUp from "./components/signUp.jsx";
 import ShareHistory from "./components/ShareHistory.jsx";
+import Analytics from "./components/Analytics.jsx";
 
 function App() {
   try {
@@ -60,6 +62,16 @@ function App() {
             {" "}
             <Navbar />
             <ShareHistory />{" "}
+          </>
+        ),
+      },
+      {
+        path: "/Analytics",
+        element: (
+          <>
+            {" "}
+            <Navbar />
+            <Analytics />{" "}
           </>
         ),
       },

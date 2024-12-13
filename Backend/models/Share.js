@@ -45,6 +45,8 @@ const ShareSchema = Schema({
   ],
 });
 ShareSchema.add({ author: String });
+ShareSchema.add({ date: Date });
+
 const Share = mongoose.model("share", ShareSchema);
 Share.createIndexes();
 module.exports = Share;

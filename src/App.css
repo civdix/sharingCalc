@@ -204,3 +204,9 @@ body {
   font-size: 200%;
   color: red;
 }
+.OverviewInNumbers div {
+  width: 24%;
+  height: 100px;
+  background-color: white;
+  padding: 2px;
+}

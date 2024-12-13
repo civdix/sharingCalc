@@ -18,6 +18,7 @@ function Calc() {
           tag: data.tag.split(","),
           person: person,
           author: localStorage.getItem("Username"),
+          date:new Date()
         }),
       }
     );
@@ -75,6 +76,7 @@ function Calc() {
               }}
               type="text"
               className="form-control"
+              value={elem.Username}
               placeholder={index + 1 + ": Username"}
               aria-label="Username"
             />
@@ -88,6 +90,7 @@ function Calc() {
               className="form-control"
               placeholder="₹"
               aria-label="Server"
+              value={elem.Rs}
             />
             <span className="input-group-text">Desc</span>
             <input
@@ -99,16 +102,17 @@ function Calc() {
               className="form-control"
               placeholder="Desc"
               aria-label="Server"
+              value={elem.Desc}
             />
             <IoCloseCircleSharp
               size={30}
-              className={
-                person.length === index + 1 && index + 1 !== 1
-                  ? "d-unset text-dark mx-1 my-1"
-                  : "d-none"
-              }
+              className="d-unset text-dark mx-1 my-1"
               onClick={() => {
-                setPerson(person.slice(0, person.length - 1));
+                setPerson([
+                  ...person.slice(0, index),
+                  ...person.slice(index + 1, undefined),
+                ]);
+                console.log(person);
               }}
             />
           </div>

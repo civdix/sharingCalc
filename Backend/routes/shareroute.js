@@ -12,6 +12,7 @@ router.post("/createShare", async (req, res) => {
       tag: req.body.tag || "No Tags",
       photo: req.body.photo || "Photo link or Base64 code not exist",
       person: req.body.person || { Desc: "There is no user" },
+      date:req.body.date || '00/00/0000'
     })
       .then((share) => {
         res.status(200).json({
@@ -38,7 +39,10 @@ router.post("/createShare", async (req, res) => {
 router.get("/getShares/:Username", async (req, res) => {
   try {
     Share.find({
-      author: req.params.Username,
+      $or: [
+        { author: req.params.Username },
+        { person: { $elemMatch: { Username: req.params.Username } } },
+      ],
     })
       .then((share) => {
         res.status(200).json({ share: [...share] });
@@ -59,11 +63,9 @@ router.delete("/deleteShare/:Username/:id", async (req, res) => {
       _id: req.params.id,
     })
       .then((share) => {
-        res
-          .status(200)
-          .json({
-            message: `Successfully deleted with id = ${req.params.id} for User = ${req.params.Username}`,
-          });
+        res.status(200).json({
+          message: `Successfully deleted with id = ${req.params.id} for User = ${req.params.Username}`,
+        });
       })
       .catch(() => {
         res.status(500).json({ message: "Unauthorised" });
