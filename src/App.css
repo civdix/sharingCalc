@@ -210,3 +210,16 @@ body {
   background-color: white;
   padding: 2px;
 }
+
+#chart-container{
+  color:black;
+  background-color: rgb(248, 247, 247   );
+  width:fit-content ;
+  padding: 5px;
+  margin:0 0 0 1%;
+  border-radius: 10px;
+
+}
+text{
+  font-size: large;
+}

@@ -1,12 +1,19 @@
-// import { useEffect } from "react";
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
-
+import '../App.css'
 export default function LineChart() {
-  // Set dimensions and margins for the chart
+  const [dataset, setDataset] = useState([
+    { date: new Date("2024-10-01"), value: 600 },
+    { date: new Date("2024-11-01"), value: 780 },
+    { date: new Date("2024-12-01"), value: 780 },
+  ]);
+
+  const margin = { top: 10, right: 10, bottom: 50, left: 60 };
+  const width = 700 - margin.left - margin.right;
+  const height = 370 - margin.top - margin.bottom;
+
   async function getShares() {
-    console.log("Now u willll");
-    let dataPerson={}
+    let dataPerson = {};
     const response = await fetch(
       `http://localhost:5000/api/share/getShares/${localStorage.getItem(
         "Username"
@@ -19,196 +26,99 @@ export default function LineChart() {
       }
     );
 
-    
-// 
-// ERROR
-// 
+    let datasetTemp = [];
 
-// 
-// ERROR
-// 
-
-// 
-// ERROR
-// 
-
-// 
-// ERROR
-// 
-
-    ////////////////// Error
-  dataPerson =await response.json()
-  // edit dataset
-  dataPerson && dataPerson.share && dataPerson.share.array.forEach((element) => {
-    const value=0;
-    element.person && element.person.array.forEach((contributor)=>{
-      value+=contributor.Rs
-    })
-    dataset.push({date:element.date,value:value})
-    
-  })
-    ////////////////// Error
-
-// 
-// ERROR
-// 
-
-// 
-// ERROR
-// 
-
-// 
-// ERROR
-// 
-
-// 
-// ERROR
-// 
-
-// 
-// ERROR
-// 
-
-
-
-
-
-
-
-
-
-
-
-  console.log(dataPerson)
+    dataPerson = await response.json();
+    dataPerson &&
+      dataPerson.share &&
+      dataPerson.share.forEach((element) => {
+        let value = 0;
+        element.person &&
+          element.person.forEach((contributor) => {
+            value += contributor.Rs;
+          });
+        datasetTemp.push({ date: new Date(element.date), value: value });
+      });
+    setDataset([...dataset, ...datasetTemp]);
   }
-  const margin = { top: 70, right: 30, bottom: 40, left: 80 };
-  const width = 700 - margin.left - margin.right;
-  const height = 370 - margin.top - margin.bottom;
 
-  // Set up the x and y scales
+  useEffect(() => {
+    // Clear existing SVG content to avoid duplicates
+    d3.select("#chart-container").select("svg").remove();
 
-  const x = d3.scaleTime().range([0, width]);
+    // Create SVG element
+    const svg = d3
+      .select("#chart-container")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const y = d3.scaleLinear().range([height, 0]);
+    // Set up scales
+    const x = d3.scaleTime().range([0, width]).domain(d3.extent(dataset, (d) => d.date));
+    const y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(dataset, (d) => d.value)]);
 
-  // Create the SVG element and append it to the chart container
+    // Add X axis
+    svg
+      .append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(
+        d3.axisBottom(x).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat("%b %Y"))
+      );
 
-  const svg = d3
-    .select("#chart-container")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+    // Add Y axis
+    svg.append("g").call(d3.axisLeft(y));
 
-  // Create a fake dataset
-// currShare.date && currShare.date.slice(0,10).split('-').reverse().join('-') to extract date in dd-mm-yyyy
-  const dataset = [
-    // { date: new Date("2022-01-01"), value: 200 },
-    // { date: new Date("2022-02-01"), value: 250 },
-    // { date: new Date("2022-03-01"), value: 180 },
-    // { date: new Date("2022-04-01"), value: 300 },
-    // { date: new Date("2022-05-01"), value: 280 },
-    // { date: new Date("2022-06-01"), value: 220 },
-    // { date: new Date("2022-07-01"), value: 300 },
-    // { date: new Date("2022-08-01"), value: 450 },
-    // { date: new Date("2022-09-01"), value: 280 },
-    { date: new Date("2022-10-01"), value: 600 },
-    { date: new Date("2022-11-01"), value: 780 },
-    { date: new Date("2022-12-01"), value: 320 },
-  ];
+    // Add the line
+    const line = d3
+      .line()
+      .x((d) => x(d.date))
+      .y((d) => y(d.value));
+      
+      svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom-5) // Position below the x-axis
+      .text("Date") // X-axis label text
+      .attr("font-size", "15px")
+      .attr("fill", "black");
+  
+    // Add Y axis label
+    svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)") // Rotate for vertical text
+      .attr("x", -height / 2) // Position along the Y-axis
+      .attr("y", -margin.left + 15) // Adjust spacing from the axis
+      .text("Sharing(ALL)") // Y-axis label text
+      .attr("font-size", "12px")
+      .attr("fill", "black");
 
-  // Define the x and y domains
+    svg
+      .append("path")
+      .datum(dataset)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", line);
 
-  x.domain(d3.extent(dataset, (d) => d.date));
-  y.domain([0, d3.max(dataset, (d) => d.value)]);
+    // Add points (optional)
+    svg
+      .selectAll("circle")
+      .data(dataset)
+      .enter()
+      .append("circle")
+      .attr("cx", (d) => x(d.date))
+      .attr("cy", (d) => y(d.value))
+      .attr("r", 4)
+      .attr("fill", "steelblue");
+  }, [dataset]); // Re-run D3 logic when dataset changes
 
-  // Add the x-axis
+  useEffect(() => {
+    getShares();
+  }, []); // Fetch data on component mount
 
-  svg
-    .append("g")
-    .attr("transform", `translate(0,${height})`)
-    .call(
-      d3
-        .axisBottom(x)
-        .ticks(d3.timeMonth.every(1))
-        .tickFormat(d3.timeFormat("%b %Y"))
-    );
-
-  // Add the y-axis
-
-  svg.append("g").call(d3.axisLeft(y));
-
-  // Create the line generator
-
-  const line = d3
-    .line()
-    .x((d) => x(d.date))
-    .y((d) => y(d.value));
-
-  // Add the line path to the SVG element
-
-  svg
-    .append("path")
-    .datum(dataset)
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 1)
-    .attr("d", line);
-
-    useEffect(() => {
-      getShares();
-    }, []);
-  return (
-    <div>
-      <svg width={width} height={height}>
-        <path fill="none" stroke="black" strokeWidth="1.5" d={line(dataset)} />
-        <g fill="white" stroke="black" strokeWidth="1.5">
-          {/* {data.map((d, i) => (
-            <circle key={i} cx={x(i)} cy={y(d)} r="2.5" />
-          ))} */}
-        </g>
-      </svg>
-    </div>
-  );
+  return <div id="chart-container"></div>;
 }
-
-/**
- {
-  // Declare the chart dimensions and margins.
-  const width = 640;
-  const height = 400;
-  const marginTop = 20;
-  const marginRight = 20;
-  const marginBottom = 30;
-  const marginLeft = 40;
-
-  // Declare the x (horizontal position) scale.
-  const x = d3.scaleUtc()
-      .domain([new Date("2023-01-01"), new Date("2024-01-01")])
-      .range([marginLeft, width - marginRight]);
-
-  // Declare the y (vertical position) scale.
-  const y = d3.scaleLinear()
-      .domain([0, 100])
-      .range([height - marginBottom, marginTop]);
-
-  // Create the SVG container.
-  const svg = d3.create("svg")
-      .attr("width", width)
-      .attr("height", height);
-
-  // Add the x-axis.
-  svg.append("g")
-      .attr("transform", `translate(0,${height - marginBottom})`)
-      .call(d3.axisBottom(x));
-
-  // Add the y-axis.
-  svg.append("g")
-      .attr("transform", `translate(${marginLeft},0)`)
-      .call(d3.axisLeft(y));
-
-  // Return the SVG element.
-  return svg.node();
-}
- */

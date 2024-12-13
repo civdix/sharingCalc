@@ -93,7 +93,7 @@ function Home() {
                 Create a new Share
                 {/* will open a modal where i can select my sharing buddies from my friends list which is present in my backend every user will have there unique username */}
               </Link>
-              <Link to="/Analysis" className="btn btn-outline-primary mx-5">
+              <Link to="/Analytics" className="btn btn-outline-primary mx-5">
                 {" "}
                 Track Caring{" "}
               </Link>
