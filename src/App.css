@@ -223,3 +223,24 @@ body {
 text{
   font-size: large;
 }
+
+.z-999{
+  z-index: 999;
+  text-shadow: 0 0 3px #030303, 0 0 5px #fffb00;
+
+}
+nav{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  z-index: 100;
+}
+.dropdown-menu{
+  width: fit-content;
+  min-width: 0;
+  right: 0;
+  text-align: center;
+}
+.logoutbutton{
+  cursor:pointer;
+}

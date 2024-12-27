@@ -13,7 +13,7 @@ import {
 import SignUp from "./components/signUp.jsx";
 import ShareHistory from "./components/ShareHistory.jsx";
 import Analytics from "./components/Analytics.jsx";
-
+import CalcState from "./components/calcContext/calcState.js";
 function App() {
   try {
     const router = createBrowserRouter([
@@ -97,7 +97,9 @@ function App() {
       },
     ]);
 
-    return <RouterProvider router={router} />;
+    return (<CalcState>
+      <RouterProvider router={router} />;
+    </CalcState>);
   } catch (e) {
     console.error("Error:", e);
   }

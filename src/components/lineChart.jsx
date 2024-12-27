@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as d3 from "d3";
-import '../App.css'
-export default function LineChart() {
-  const [dataset, setDataset] = useState([
-    { date: new Date("2024-10-01"), value: 600 },
-    { date: new Date("2024-11-01"), value: 780 },
-    { date: new Date("2024-12-01"), value: 780 },
-  ]);
+import "../App.css";
+import CalcContext from "./calcContext/calcContext";
+export default function LineChart(datasetProp) {
+  const [dataset, setDataset] = useState([]);
+  let { share } = useContext(CalcContext);
+  console.log("from LineChart.jsx", share);
 
-  const margin = { top: 10, right: 10, bottom: 50, left: 60 };
+  const [personData, setPersonData] = useState([]);
+
+  const margin = { top: 10, right: 10, bottom: 50, left: 85 };
   const width = 700 - margin.left - margin.right;
   const height = 370 - margin.top - margin.bottom;
 
-  async function getShares() {
-    let dataPerson = {};
-    const response = await fetch(
-      `http://localhost:5000/api/share/getShares/${localStorage.getItem(
-        "Username"
-      )}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      }
-    );
+  // async function getShares() {
+  //   let dataPerson = {};
+  //   const response = await fetch(
+  //     `http://localhost:5000/api/share/getShares/${localStorage.getItem(
+  //       "Username"
+  //     )}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-type": "application/json",
+  //       },
+  //     }
+  //   );
 
+  // }
+  useEffect(() => {
     let datasetTemp = [];
-
-    dataPerson = await response.json();
+    let dataPerson = {};
+    dataPerson = share;
+    setPersonData(dataPerson);
     dataPerson &&
       dataPerson.share &&
       dataPerson.share.forEach((element) => {
@@ -40,9 +44,12 @@ export default function LineChart() {
         datasetTemp.push({ date: new Date(element.date), value: value });
       });
     setDataset([...dataset, ...datasetTemp]);
-  }
+    console.log("Running the share useEffect");
+  }, [share]); // Fetch data on component mount
 
   useEffect(() => {
+    console.log("Running the Dataset change");
+
     // Clear existing SVG content to avoid duplicates
     d3.select("#chart-container").select("svg").remove();
 
@@ -56,15 +63,24 @@ export default function LineChart() {
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Set up scales
-    const x = d3.scaleTime().range([0, width]).domain(d3.extent(dataset, (d) => d.date));
-    const y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(dataset, (d) => d.value)]);
+    const x = d3
+      .scaleTime()
+      .range([0, width])
+      .domain(d3.extent(dataset, (d) => d.date));
+    const y = d3
+      .scaleLinear()
+      .range([height, 0])
+      .domain([0, d3.max(dataset, (d) => d.value)]);
 
     // Add X axis
     svg
       .append("g")
       .attr("transform", `translate(0,${height})`)
       .call(
-        d3.axisBottom(x).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat("%b %Y"))
+        d3
+          .axisBottom(x)
+          .ticks(d3.timeMonth.every(1))
+          .tickFormat(d3.timeFormat("%b %Y"))
       );
 
     // Add Y axis
@@ -75,16 +91,16 @@ export default function LineChart() {
       .line()
       .x((d) => x(d.date))
       .y((d) => y(d.value));
-      
-      svg
+
+    svg
       .append("text")
       .attr("text-anchor", "middle")
       .attr("x", width / 2)
-      .attr("y", height + margin.bottom-5) // Position below the x-axis
+      .attr("y", height + margin.bottom - 15) // Position below the x-axis
       .text("Date") // X-axis label text
       .attr("font-size", "15px")
       .attr("fill", "black");
-  
+
     // Add Y axis label
     svg
       .append("text")
@@ -115,10 +131,6 @@ export default function LineChart() {
       .attr("r", 4)
       .attr("fill", "steelblue");
   }, [dataset]); // Re-run D3 logic when dataset changes
-
-  useEffect(() => {
-    getShares();
-  }, []); // Fetch data on component mount
 
   return <div id="chart-container"></div>;
 }
