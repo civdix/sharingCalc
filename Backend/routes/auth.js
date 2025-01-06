@@ -87,17 +87,23 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// making router to get all the details about the user
-router.get("/getData", (req, res) => {
+// making router to get all the detail
+// s about the user
+router.get("/getData/:Username", async (req, res) => {
   try {
-    const { Username } = req.body;
-    const data = User.findOne({ Username }).select("-Password");
+    const { Username } = req.params;
+    const data = await User.findOne({ Username }).select("-Password");
+
     if (data) {
-      res.status(200).json({ data, msg: "Data Found", success: true });
+      return res.status(200).json({ data, msg: "Data Found", success: true });
     }
-    return res.status(404).json({ success: false, msg: "No User found" });
+
+    return res.status(200).json({ success: false, msg: "No User found" });
   } catch (error) {
-    res.status(400).json({ success: true, msg: "Internal Server Error" });
+    console.error(error); // Logs the error for debugging
+    return res
+      .status(500)
+      .json({ success: false, msg: "Internal Server Error" });
   }
 });
 module.exports = router;

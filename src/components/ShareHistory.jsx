@@ -1,11 +1,59 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdDeleteForever } from "react-icons/md";
-
+import { FaPencilAlt, FaWhatsapp } from "react-icons/fa";
+import Edit from "./Edit";
+import { FaMessage } from "react-icons/fa6";
 function ShareHistory() {
+  const [edit, setEdit] = useState({});
   const [section, setSection] = useState(true);
   const [share, setShare] = useState([]);
   const launchView = useRef(null);
+  const launchEdit = useRef(null);
   const [currShare, setCurrShare] = useState({ person: [{}] });
+  const handleSendMessage = async (personData, message = "") => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/auth/getData/${personData.Username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      let data = await response.json();
+      if (!data.success) {
+        let phone = prompt(
+          `No User Found in Database\nAsk ${personData.Username} to Join SharingCalc Enter the Phone Number by yourself`
+        );
+        data.Phone = phone;
+        data.Name = personData.Username;
+      } else {
+        data = data.data;
+      }
+      alert(
+        data.Phone.toString().length <= 10
+          ? "91" + data.Phone.toString()
+          : data.Phone || "Nothing to print"
+      );
+      window.location.href = `https://wa.me/${
+        data.Phone.toString().length <= 10
+          ? "91" + data.Phone.toString()
+          : data.Phone
+      }?text=Hi%20${data.Name}%20${
+        message == ""
+          ? "%0AThere%20is%20some%20issues%20with%20my%20settlement%20for%20the%20month%20can%20you%20please%20clear%20your%20Past%20due%20on%20me%20i%20think%20you%20forget%20that%20but%20don't%20worry%20here%20i'm%20making%20you%20remember%20"
+          : message + "%20"
+      }%0A${"I%20think%20the%20amount%20is%20:" + personData.Rs}`;
+    } catch (error) {
+      console.error("Error fetching the user:", error.message);
+    }
+  };
   function credits() {
     var totalSpend = 0;
     var totalDept = 0;
@@ -22,6 +70,11 @@ function ShareHistory() {
 
     return ["Total Spend: ", totalSpend, "\n Total Dept: ", totalDept];
   }
+  const launchEditClickByRef = (person) => {
+    setEdit(person);
+    launchEdit.current.click();
+    launchView.current.click();
+  };
 
   const launchViewClickByRef = (share) => {
     launchView.current.click();
@@ -81,7 +134,26 @@ function ShareHistory() {
         Launch demo modal
       </button>
 
+      <button
+        type="button"
+        className="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#exampleModal2"
+        ref={launchEdit}
+      >
+        Launch demo modal
+      </button>
       {/* <!-- Modal --> */}
+      <div
+        className="modal fade"
+        id="exampleModal2"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabe2"
+        aria-hidden="false"
+      >
+        <Edit person={edit} />
+      </div>
       <div
         className="modal fade"
         id="exampleModal"
@@ -123,16 +195,37 @@ function ShareHistory() {
                           alt={contributor.Username}
                         />
                         <div className="mx-1 details d-flex flex-column">
-                          <span>Name: {contributor.Username}</span>
+                          <span>
+                            Name: {contributor.Username} :{" "}
+                            {
+                              <FaWhatsapp
+                                size={20}
+                                onClick={() => {
+                                  handleSendMessage(contributor);
+                                  console.log("Onclicked");
+                                }}
+                                cursor="pointer"
+                              />
+                            }
+                          </span>
                           <span>Contributed: {contributor.Rs + "₹"}</span>
                           <span>Description: {contributor.Desc}</span>
+                        </div>
+                        <div
+                          className="edit"
+                          onClick={() => launchEditClickByRef(contributor)}
+                        >
+                          <FaPencilAlt cursor="pointer" />
                         </div>
                       </div>
                     </div>
                   );
                 })}
               </div>
-              <h5>{currShare.date && currShare.date.slice(0,10).split('-').reverse().join('-')}</h5>
+              <h5>
+                {currShare.date &&
+                  currShare.date.slice(0, 10).split("-").reverse().join("-")}
+              </h5>
             </div>
             <div className="modal-footer">
               <button
@@ -141,9 +234,6 @@ function ShareHistory() {
                 data-dismiss="modal"
               >
                 Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
               </button>
             </div>
           </div>

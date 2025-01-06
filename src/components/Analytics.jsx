@@ -2,8 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import CalcContext from "./calcContext/calcContext";
 import LineChart from "./lineChart";
 import * as d3 from "d3";
+import PieChart from "./pieChart";
+import ContriToShare from "./contriToShare";
 // Will have a Available Settlements Where if i eat on ctri of 10Rs from sahil author and some day i today make A Share wher sahil contri is 10Rs so it will be Settlement Possible so remaiining amount would be either zero or dept or credit
 function Analytics() {
+  const dataPie = [
+    { name: "A", value: 30 },
+    { name: "B", value: 70 },
+    { name: "C", value: 50 },
+  ];
   const [spends, setSpends] = useState({
     "Total Spend": 0,
     "Total Debt": 0,
@@ -50,7 +57,7 @@ function Analytics() {
       className="mx-auto d-flex justify-content-between"
       style={{ width: "100%", backgroundColor: "transparent" }}
     >
-      <div className="firstHalf" style={{ width: "80%" }}>
+      <div className="firstHalf" style={{ width: "75%" }}>
         <div className="OverviewInNumbers d-flex p-2 justify-content-around">
           {/* Make a UseContext and save the totalSpend wagera things in that context */}
           <div className="TotalSpend rounded mx-1">
@@ -84,20 +91,14 @@ function Analytics() {
         <div className="Suggestion"></div>
         <div className="FriendShipQuoates"></div>
       </div>
-      <div className="secondHalf" style={{ width: "20%" }}>
+      <div className="secondHalf" style={{ width: "25%", height: "100%" }}>
         <div className="SpendsPieAccToCategory bg-white p-2">
-          <img
-            className="w-100"
-            src={require("../resources/Image/PieChart.png")}
-            alt="pierChart"
-          />
+          <h6>Top Categories and There Share</h6>
+          <br />
+          <PieChart />
         </div>
-        <div>
-          <img
-            className="my-1"
-            src={require("../resources/Image/horizontalPercentageOutOf.png")}
-            alt=""
-          />
+        <div className="ContriToShare">
+          <ContriToShare />
         </div>
       </div>
     </div>

@@ -28,12 +28,36 @@ const CalcState = (props) => {
     }
   };
 
+  const updateShare = async (_id, personUpdatingData) => {
+    console.log("In the updateShare with", _id, personUpdatingData);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/share/updateShare/${_id}`,
+        {
+          method: "PUT",
+          headers: {
+            ShareId: _id,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(personUpdatingData),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP Error! status:${response.status}`);
+      }
+    } catch (e) {
+      console.log("ERRor");
+    }
+  };
   // Will gonna add addShare
   // createUser
   // other option toooooooo
-
+  const getUser = async (Username) => {
+    const data = fetch("https:/localhost:5000/getData/:Username");
+  };
   return (
-    <CalcContext.Provider value={{ share, getShare }}>
+    <CalcContext.Provider value={{ share, getShare, updateShare }}>
       {props.children}{" "}
     </CalcContext.Provider>
   );
