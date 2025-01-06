@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MdOutlineNotificationsActive,
   MdNotifications,
@@ -13,10 +13,11 @@ import { FaPencil } from "react-icons/fa6";
 
 function Navbar() {
   const [read, setRead] = useState(true);
-  // const location = useLocation()
+  const navigate = useNavigate();
   // const [currentTab,setCurrentTab] = useState(window.location.pathname)
   function handleLogOut() {
     localStorage.removeItem("Username");
+    navigate("/");
   }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">

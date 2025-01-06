@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { FaPencilAlt, FaWhatsapp } from "react-icons/fa";
 import Edit from "./Edit";
+import Alert from "./Alert.jsx";
 import { FaMessage } from "react-icons/fa6";
 function ShareHistory() {
   const [edit, setEdit] = useState({});
@@ -80,6 +81,11 @@ function ShareHistory() {
     launchView.current.click();
     setCurrShare(share);
   };
+  const [alert, setAlert] = useState({
+    display: false,
+    message: "",
+    type: "primary",
+  });
   async function deleteHistory(id, Username, index) {
     const response = await fetch(
       `http://localhost:5000/api/share/deleteShare/${Username}/${id}`,
@@ -94,10 +100,22 @@ function ShareHistory() {
     if (!response.ok) {
       alert(json.message);
     } else {
-      console.log("Successfully deleted\n", json.message);
+      console.log("Successfully Deleted\n", json.message);
       share.slice(index, 1);
       const newShare = [...share.slice(0, index), ...share.slice(index + 1)];
       setShare(newShare);
+      setAlert({
+        display: true,
+        type: "success",
+        message: "Share Deleted Successfully",
+      });
+      setTimeout(() => {
+        setAlert({
+          display: false,
+          type: "primary",
+          message: "Share Deletion No Status",
+        });
+      }, 5000);
     }
     // That popdown or Line thing below navbar
   }
@@ -123,6 +141,7 @@ function ShareHistory() {
   }, []);
   return (
     <div className="blur my-2 rounded p-2 ">
+      {alert.display && <Alert alert={alert} size={100} />}
       {/* Button trigger  */}
       <button
         type="button"
@@ -278,10 +297,14 @@ function ShareHistory() {
                 className="card p-1 my-1 mx-1 position-relative"
                 //   style={{ width: "16rem" }}
               >
-                <MdDeleteForever
-                  className="deleteButton position-absolute left-0 z-index-2"
-                  onClick={() => deleteHistory(e._id, e.Username, index)}
-                />
+                {localStorage.getItem("Username") == e.author ? (
+                  <MdDeleteForever
+                    className="deleteButton position-absolute left-0 z-index-2"
+                    onClick={() => deleteHistory(e._id, e.Username, index)}
+                  />
+                ) : (
+                  ""
+                )}
                 <img
                   className="card-img-top "
                   src="https://th.bing.com/th/id/OIP.K7NwKlbwQo9WvIedWa-fYgHaE8?rs=1&pid=ImgDetMain"

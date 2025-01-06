@@ -31,7 +31,9 @@ router.post("/createShare", async (req, res) => {
         });
       });
   } catch (error) {
-    res.status(500).json({ message: "Internal server me kuch dikkat hai" });
+    res
+      .status(500)
+      .json({ success: false, message: "Internal server me kuch dikkat hai" });
   }
 });
 
