@@ -16,10 +16,10 @@ function Edit(props) {
   };
   console.log(props.person.Rs);
 
-  const handleSubmit = (id) => {
+  const handleSubmit = (id, Username) => {
     console.log(updating);
 
-    updateShare(id, updating);
+    updateShare(id, Username, updating);
   };
   return (
     <div className="modal-dialog edit" role="document">
@@ -75,7 +75,7 @@ function Edit(props) {
             aria-label="Close"
             className="btn btn-primary"
             onClick={() => {
-              handleSubmit(person._id);
+              handleSubmit(props.person.ShareId, person.Username);
             }}
           >
             Save Changes

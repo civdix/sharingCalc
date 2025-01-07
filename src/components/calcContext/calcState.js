@@ -28,7 +28,7 @@ const CalcState = (props) => {
     }
   };
 
-  const updateShare = async (_id, personUpdatingData) => {
+  const updateShare = async (_id, Username, personUpdatingData) => {
     console.log("In the updateShare with", _id, personUpdatingData);
 
     try {
@@ -38,6 +38,7 @@ const CalcState = (props) => {
           method: "PUT",
           headers: {
             ShareId: _id,
+            Username: Username,
             "Content-type": "application/json",
           },
           body: JSON.stringify(personUpdatingData),

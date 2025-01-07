@@ -71,8 +71,9 @@ function ShareHistory() {
 
     return ["Total Spend: ", totalSpend, "\n Total Dept: ", totalDept];
   }
-  const launchEditClickByRef = (person) => {
-    setEdit(person);
+  const launchEditClickByRef = (person, ShareId) => {
+    console.log("The ShareId value is", ShareId);
+    setEdit({ ...person, ShareId: ShareId });
     launchEdit.current.click();
     launchView.current.click();
   };
@@ -232,7 +233,9 @@ function ShareHistory() {
                         </div>
                         <div
                           className="edit"
-                          onClick={() => launchEditClickByRef(contributor)}
+                          onClick={() =>
+                            launchEditClickByRef(contributor, currShare._id)
+                          }
                         >
                           <FaPencilAlt cursor="pointer" />
                         </div>

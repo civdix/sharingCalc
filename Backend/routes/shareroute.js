@@ -64,19 +64,39 @@ router.put("/updateShare/:id", async (req, res) => {
 
   try {
     const ShareId = req.header("ShareId");
+    const Username = req.header("Username");
 
     //diffrent approach to give query as a object not hardcorely bbut by a variable and we will update our query if NoteId is given
-    let query = { user: req.params.id }; // Default query for update
-
-    // If NoteId is provided in headers, update based on user id and NoteId
-    if (ShareId) {
-      query._id = ShareId;
-    }
+    // Default query for upd
     const updateData = await req.body;
-    const updatedShare = await Share.findOneAndUpdate(query, updateData);
+    const updatedShare = await Share.findOneAndUpdate(
+      { _id: new ObjectId(ShareId) }, // Filter: Match document by _id
+
+      updateData.Desc
+        ? {
+            $set: {
+              "person.$[elem].Username": updateData.Username || Username,
+              "person.$[elem].Rs": updateData.Rs, // Update Rs for matching element
+              "person.$[elem].Desc": updateData.Desc, // Update Desc for matching element
+            },
+          }
+        : {
+            $set: {
+              "person.$[elem].Username": updateData.Username || Username,
+              "person.$[elem].Rs": updateData.Rs, // Update Rs for matching element
+              //  // Update Desc for matching element
+            },
+          },
+      {
+        arrayFilters: [{ "elem.Username": Username }], // Array filter for matching Username
+        new: true, // Return the updated document
+      }
+    );
+
+    // const updatedShare = await Share.findOneAndUpdate(query, updateData);
 
     if (!updatedShare) {
-      return res.status(404).send("Note not found");
+      return res.status(400).send("Share not found");
     }
     console.log("====================================");
     console.log("Updated Share is:", updatedShare);
