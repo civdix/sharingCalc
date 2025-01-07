@@ -106,7 +106,7 @@ function Calc() {
                 }}
                 type="text"
                 className="form-control"
-                value={elem.Username}
+                value={elem.Username.toLowerCase()}
                 placeholder={index + 1 + ": Username"}
                 aria-label="Username"
               />

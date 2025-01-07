@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
 const User = require("../models/User");
+const Notification = require("../models/NotificationSchema");
 const { body, validationResult } = require("express-validator");
 
 router.post("/createShare", async (req, res) => {
@@ -16,6 +17,23 @@ router.post("/createShare", async (req, res) => {
       date: req.body.date || "00/00/0000",
     })
       .then((share) => {
+        Notification.create({
+          message: `Share Created by ${req.body.author}`,
+          type: "info",
+          recipients: req.body.person.map((aPerson) => {
+            return {
+              Username: aPerson.Username,
+              read: false, // Default status for "unread",
+              readAt: null, // Timestamp for when it is read (null initially)
+            };
+          }),
+        })
+          .then((notification) => {
+            console.log("Notification Created", notification);
+          })
+          .catch((error) => {
+            console.log("Error in creating the Notificaiton", error);
+          });
         res.status(200).json({
           success: true,
           message: "Schema Created Successfully",
