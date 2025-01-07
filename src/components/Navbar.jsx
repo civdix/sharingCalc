@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   MdOutlineNotificationsActive,
@@ -10,15 +10,23 @@ import { SiGoogleanalytics } from "react-icons/si";
 import { IoCreate, IoSettings } from "react-icons/io5";
 import { ImProfile } from "react-icons/im";
 import { FaPencil } from "react-icons/fa6";
+import Notification from "./Notification";
+import CalcContext from "./calcContext/calcContext";
 
 function Navbar() {
-  const [read, setRead] = useState(true);
   const navigate = useNavigate();
   // const [currentTab,setCurrentTab] = useState(window.location.pathname)
   function handleLogOut() {
     localStorage.removeItem("Username");
     navigate("/");
   }
+
+  const { updateRead, doCall, Username } = useContext(CalcContext);
+  // const [read, setRead] = useState(doCall);
+  const makeUnreadRead = (notificationId, readerUsername) => {
+    console.log("doCall:", doCall);
+    if (doCall) updateRead(notificationId, readerUsername);
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
       <Link className="navbar-brand z-999 " to="/">
@@ -52,7 +60,12 @@ function Navbar() {
               <FaHome size={25} />
             </Link>
           </li>
-          <li className="nav-item dropdown">
+          <li
+            className="nav-item dropdown"
+            onClick={() => {
+              makeUnreadRead(null, Username);
+            }}
+          >
             <span
               className="nav-link dropdown-toggle"
               to="/Notification"
@@ -62,24 +75,13 @@ function Navbar() {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              {read ? (
+              {!doCall ? (
                 <MdNotifications size={25} />
               ) : (
                 <MdOutlineNotificationsActive size={25} />
               )}
             </span>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <Link className="dropdown-item" to="https//www.google.com">
-                Action
-              </Link>
-              <Link className="dropdown-item" to="https//www.google.com">
-                Another action
-              </Link>
-              <div className="dropdown-divider"></div>
-              <Link className="dropdown-item" to="https//www.google.com">
-                Something else here
-              </Link>
-            </div>
+            <Notification />
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/Analytics">

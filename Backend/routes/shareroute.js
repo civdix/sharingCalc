@@ -18,6 +18,7 @@ router.post("/createShare", async (req, res) => {
     })
       .then((share) => {
         Notification.create({
+          author: req.body.author,
           message: `Share Created by ${req.body.author}`,
           type: "info",
           recipients: req.body.person.map((aPerson) => {

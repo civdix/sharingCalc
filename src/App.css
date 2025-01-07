@@ -339,3 +339,22 @@ nav {
 /* .secondHalf{
   display: flex;
 } */
+
+.Notification {
+  max-width: 30vw;
+  max-height: 30vw;
+  overflow-y: auto;
+  flex-direction: column-reverse;
+}
+
+.notificationPartner {
+  width: fit-content;
+  margin-left: 1%;
+}
+.notificationPartnerSliding {
+  /* flex-nowrap overflow-x-auto slider
+ */
+  display: flex;
+  overflow-x: auto;
+  overflow: -moz-hidden-unscrollable;
+}

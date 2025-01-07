@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import CalcContext from "./calcContext";
+
 const CalcState = (props) => {
+  const [doCall, setDoCall] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [username, setUsername] = useState(localStorage.getItem("Username"));
   // There getShare method Not Working
   const [share, setShare] = useState({});
   const getShare = async (Username) => {
@@ -25,6 +29,63 @@ const CalcState = (props) => {
       return shares;
     } catch (error) {
       console.log("Error from getShare: ", error);
+    }
+  };
+  const updateRead = async (notificationId, readerUsername) => {
+    try {
+      console.log("Come to Update Reads");
+
+      const response = await fetch(
+        `http://localhost:5000/api/notification/update/${notificationId}/${readerUsername}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      // Check for HTTP errors
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      setDoCall(false);
+      return true;
+    } catch (error) {
+      console.log("There is Error");
+      throw error;
+    }
+  };
+  const getNotification = async (Username) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/notification/getNotification/${Username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json", // Fixed the capitalization
+          },
+        }
+      );
+
+      // Check for HTTP errors
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const json = await response.json();
+      console.log("Notification", json.notification);
+      json.notification.forEach((elem) => {
+        elem.recipients.forEach((person) => {
+          if (person.Username == username) {
+            person.read ? setDoCall(false) : setDoCall(true);
+          }
+        });
+      });
+      setNotifications(json.notification);
+      return json.notification;
+    } catch (error) {
+      console.error("Error in getting Notification:", error);
+      throw error; // Re-throw the error if needed
     }
   };
 
@@ -58,7 +119,19 @@ const CalcState = (props) => {
     const data = fetch("https:/localhost:5000/getData/:Username");
   };
   return (
-    <CalcContext.Provider value={{ share, getShare, updateShare }}>
+    <CalcContext.Provider
+      value={{
+        share,
+        getShare,
+        updateShare,
+        getNotification,
+        updateRead,
+        doCall,
+        Username: username,
+        setUsername,
+        notifications,
+      }}
+    >
       {props.children}{" "}
     </CalcContext.Provider>
   );

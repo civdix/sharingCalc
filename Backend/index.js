@@ -10,12 +10,17 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use("/api/auth/", require("./routes/auth"));
 app.use("/api/share/", require("./routes/shareroute"));
+app.use("/api/notification/", require("./routes/notificationroute"));
 
 app.get("/", (req, res) => {
   res.send("<h1>Your app is ready with backend connection and api's</h1>");
 });
 app.listen(port, () => {
   console.log("==========================================================");
-  console.log("|| Sharing Calc Backend is Listening at localhost:", port, "||");
+  console.log(
+    "|| Sharing Calc Backend is Listening at localhost:",
+    port,
+    " ||"
+  );
   console.log("==========================================================");
 });
